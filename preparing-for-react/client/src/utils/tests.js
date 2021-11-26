@@ -11,32 +11,39 @@ export function expect(received) {
   return {
     toBe(expected) {
       // 전달값과 기대값을 비교해서 같지 않으면 오류 발생
-      if (received !== expected) throwError(`${received}와 ${expected} 값은 동일하지 않습니다.`);
+      if (received !== expected)
+        throwError(`${received}와 ${expected} 값은 동일하지 않습니다.`);
     },
 
     toBeTruthy() {
-      if (received !== true) throwError(`${received} 값이 truthy 하지 않습니다.`);
+      if (received !== true)
+        throwError(`${received} 값이 truthy 하지 않습니다.`);
     },
 
     toBeFalsy() {
-      if (received !== false) throwError(`${received} 값이 falsy 하지 않습니다.`);
+      if (received !== false)
+        throwError(`${received} 값이 falsy 하지 않습니다.`);
     },
 
     toBeInTheDocument() {
-      if (!document.body.contains(received)) throwError(`${received}는 문서에 존재하지 않습니다.`);
+      if (!document.body.contains(received))
+        throwError(`${received}는 문서에 존재하지 않습니다.`);
     },
 
     toHaveClass(expected) {
-      if (!received.classList.contains(expected)) throwError(`${expected} 요소가 없습니다.`);
+      if (!received.classList.contains(expected))
+        throwError(`${expected} 요소가 없습니다.`);
     },
 
     not: {
       toBe(expected) {
-        if (received === expected) throwError(`${received}와 ${expected} 값이 동일합니다.`);
+        if (received === expected)
+          throwError(`${received}와 ${expected} 값이 동일합니다.`);
       },
 
       toBeInTheDocument() {
-        if (!document.body.contains(received)) throwError(`${received}는 문서에 존재합니다.`);
+        if (!document.body.contains(received))
+          throwError(`${received}는 문서에 존재합니다.`);
       },
     },
   };
