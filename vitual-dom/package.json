@@ -1,0 +1,24 @@
+{
+  "private": true,
+  "type": "module",
+  "name": "render-react-browser",
+  "version": "0.0.1",
+  "description": "웹 브라우저 환경에서 React 앱 렌더링",
+  "scripts": {
+    "start": "cross-env OPEN='/client' run-p compile dev",
+    "dev": "node ./server/index.mjs",
+    "compile": "babel ./client/src/main.js -o ./client/src/main.compiled.js -w"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.0",
+    "@babel/plugin-transform-react-jsx": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
+    "@types/react": "^17.0.37",
+    "@types/react-dom": "^17.0.11",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.2.0",
+    "live-server": "^1.1.0",
+    "npm-run-all": "^4.1.5"
+  }
+}
