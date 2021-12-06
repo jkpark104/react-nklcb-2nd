@@ -6,7 +6,7 @@ const serverConfig = merge(devConfig, {
   devtool: 'source-map',
   devServer: {
     port: 3000,
-    static: ['dist'],
+    static: ['dist', 'src'],
   },
 });
 

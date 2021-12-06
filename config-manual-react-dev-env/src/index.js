@@ -1,6 +1,13 @@
-import { App } from './components';
-import { createElement as h } from 'react';
-import { render } from 'react-dom';
+import React from 'react';
+import { render as domRender } from 'react-dom';
+import { RandomCountUpApp } from './components';
 
-// ReactDOM render
-render(h(App, { greetingMessage: '안녕! React 🎨' }), document.getElementById('root'));
+let count = 0;
+
+const rootNode = document.getElementById('root');
+
+function render(count) {
+  domRender(<RandomCountUpApp count={count} />, rootNode);
+}
+
+render(count);

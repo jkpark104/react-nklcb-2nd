@@ -20,8 +20,13 @@ module.exports = {
   plugins: ['react', 'jsx-a11y', 'prettier'],
   rules: {
     'react/prop-types': 'warn',
-    'prettier/prettier': 'error',
     'arrow-body-style': 'off',
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
     'prefer-arrow-callback': 'off',
   },
 };
