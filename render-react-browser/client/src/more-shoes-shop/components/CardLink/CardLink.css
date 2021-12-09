@@ -1,0 +1,27 @@
+.cardLink {
+  color: #e2999a;
+  background-color: #fff;
+  padding: 52px 0 0;
+  list-style: none;
+}
+
+:not(.cardLink:nth-child(1)).cardLink {
+  margin-top: 16px;
+}
+
+.cardLink-title {
+  max-width: 238px;
+  margin: 0 20px 0;
+}
+
+.cardLink-desc {
+  max-width: 238px;
+
+  margin: 12px 20px 35px;
+}
+
+.cardLink-image {
+  width: 100%;
+  object-fit: cover;
+  height: 210px;
+}

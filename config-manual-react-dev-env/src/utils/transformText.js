@@ -1,3 +1,2 @@
-export const transformText = (text) => {
-  return text.toString().replace(/\n\s+/g, '').trim();
-};
+export const transformText = (text) =>
+  text.toString().replace(/\n\s+/g, '').trim();

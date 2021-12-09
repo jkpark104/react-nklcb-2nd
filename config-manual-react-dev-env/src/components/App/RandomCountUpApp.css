@@ -1,6 +1,6 @@
 .randomCountUp {
   --color-background: #150f1f;
-  --color-foreground: #f2f2f5;
+  --color-forground: #f2f2f5;
 
   cursor: pointer;
   display: flex;
@@ -11,7 +11,7 @@
   font-size: 50vh;
   line-height: 1;
   background: var(--color-background);
-  color: var(--color-foreground);
+  color: var(--color-forground);
 }
 
 .randomCountUp output {
@@ -21,16 +21,8 @@
 }
 
 @keyframes wiggle {
-  0% {
-    opacity: 1;
-  }
-  33.3333% {
-    opacity: 0.4;
-  }
-  66.6666% {
-    opacity: 0.8;
-  }
-  100% {
-    opacity: 0;
-  }
+  0% { opacity: 1; }
+  33.3333% { opacity: 0.4; }
+  66.6666% { opacity: 0.8; }
+  100% { opacity: 0; }
 }

@@ -1,4 +1,4 @@
-// 모듈 함수
 export * from './transformText';
-export * from './getRndom';
+export * from './getRandom';
+export * from './settings';
 export * from './logger';
