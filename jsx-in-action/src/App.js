@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { Fragment as Template } from 'react';
+import { isObject, isArray } from './utils';
 import {
   EmojiOops,
   List,
@@ -9,7 +10,6 @@ import {
   GlobalNav,
   DescList,
 } from './components';
-import { isObject, isArray } from './utils';
 
 /* -------------------------------------------------------------------------- */
 
@@ -59,9 +59,13 @@ const renderList = (list) => {
 const ListRedering = () => {
   return (
     <Container>
-      <Headline headline="React 리스트 렌더링 (배열)"></Headline>
+      <Headline>React 리스트 렌더링 (배열)</Headline>
 
+      {/* 배열 리스트 렌더링 */}
       <GlobalNav>
+        {/* 웹 표준을 준수해 비순차 목록을 화면에 출력해봅니다. */}
+        {/* renderList(list) 함수를 실행해 리스트 렌더링 처리해봅니다. */}
+        {/* <ul>{renderList(list)}</ul> */}
         <List>
           {list.map((item, index) => (
             <List.Item key={index} link={item.link} text={item.text} />
@@ -69,6 +73,7 @@ const ListRedering = () => {
         </List>
       </GlobalNav>
 
+      {/* 객체 리스트 렌더링 */}
       <DescList>
         {Object.entries(db).map(([key, value]) => {
           return (
@@ -84,6 +89,12 @@ const ListRedering = () => {
             </Template>
           );
         })}
+        {/* 웹 표준을 준수해 설명 목록을 화면에 출력해봅니다. */}
+        {/* `db` 객체의 "속성", "값" 쌍을 순환하여 리스트 렌더링 해보세요. */}
+        {/* 값의 유형이 객체 또는 배열인 경우, 코드가 화면에 출력되도록 설정합니다. */}
+        {/* `isArray`, `isObject` 유틸리티 함수를 만들어 활용하세요. */}
+        {/* 코드를 화면에 출력할 때는 <PrettyPrintCode /> 컴포넌트를 활용합니다. (`code` 속성) */}
+        {/* <PrettyPrintCode code={db} /> */}
       </DescList>
     </Container>
   );
