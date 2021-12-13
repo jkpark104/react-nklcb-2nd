@@ -1,0 +1,47 @@
+@import url('./common/initializer.css');
+
+$margin-base: 10px;
+
+// 사용자 정의 미디어 쿼리
+@custom-media --viewport-md (min-width: 640px) and (max-width: 1024px);
+
+// 사용자 정의 선택자
+@custom-selector :--section-headings section h1, section h2, section h3;
+
+// 사용자 정의 속성(변수)
+:root {
+  --color-primary: rgb(97 53 216);
+  --color-secondary: #74c758;
+  --size-base-rem: #{$margin-base};
+}
+
+:--section-headings {
+  font-size: calc(var(--size-base-rem) * 1.6);
+  color: var(--color-secondary);
+}
+
+html {
+  font-size: var(--size-base-rem);
+}
+
+body {
+  margin: var(--size-base-rem);
+  color: var(--color-primary);
+}
+
+@media (--viewport-md) {
+  :root {
+    --size-base-rem: #{$margin-base * 0};
+  }
+}
+
+// 중첩 규칙
+a {
+  & img {
+    vertical-align: middle;
+  }
+
+  &:hover {
+    outline: none;
+  }
+}

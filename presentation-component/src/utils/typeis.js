@@ -1,5 +1,4 @@
-export const typeis = (d) => {
-  return Object.prototype.toString.call(d).toLowerCase().slice(8, -1);
-};
+export const typeIs = (d) =>
+  Object.prototype.toString.call(d).toLowerCase().slice(8, -1);
 
-export const isObject = (d) => typeis(d) === 'object';
+export const isObject = (d) => typeIs(d) === 'object';

@@ -1,17 +1,18 @@
 import React from 'react';
 import { Emoji } from '../../components';
+import oops from '../../assets/emoji/oops.png';
 
-export default function App({ greetingMessage }) {
+export default function App({ greetingMessage, children }) {
   return (
     <div className="app">
       <h1>{greetingMessage}</h1>
       <Emoji
         id="emoji-id"
         aria-label="emoji-label"
-        className="alpha beta gamma zeta"
-        source="/assets/emoji/oops.png"
+        source={oops}
         label="웁스!!"
       />
+      {children}
     </div>
   );
 }
