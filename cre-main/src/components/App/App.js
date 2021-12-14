@@ -3,6 +3,9 @@ import reactLogoPath, {
   ReactComponent as ReactLogo,
 } from '../../assets/react.svg';
 
+import ReactLogo2 from '@/assets/react.svg?react';
+console.log(ReactLogo2);
+
 console.log(reactLogoPath); // asset SVG (file path)
 console.log(ReactLogo); // SVGR (React Component)
 

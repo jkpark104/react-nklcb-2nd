@@ -5,6 +5,11 @@ const devConfig = {
   target: ['web'],
   mode: 'development',
   devtool: 'source-map',
+  resolve: {
+    alias: {
+      '@': path.resolve(__root, 'src'),
+    },
+  },
   output: {
     path: path.resolve(__root, 'dist'),
     filename: 'js/[name].js',
