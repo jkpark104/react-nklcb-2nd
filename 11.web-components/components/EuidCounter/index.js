@@ -1,8 +1,8 @@
 /* 컴포넌트 템플릿 로드(비동기) --------------------------------------------------------- */
 
 fetch('/components/EuidCounter/template.html')
-  .then(response => response.text())
-  .then(template => define('euid-counter', template));
+  .then((response) => response.text())
+  .then((template) => define('euid-counter', template));
 
 /* 로드 후, 컴포넌트 정의 ------------------------------------------------------------ */
 
@@ -33,8 +33,8 @@ function define(componentName, template) {
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-      this.props[name] = +newValue;
-      this.setState({ [name]: Number(newValue) });
+      this.props[name] = Number(newValue);
+      name === 'count' && (this.state.count = this.props.count);
     }
 
     disconnectedCallback() {
@@ -95,7 +95,9 @@ function define(componentName, template) {
       this.containerNode = this.shadowRoot.querySelector('.EuidCounter');
       this.containerNode.addEventListener('click', ({ target }) => {
         if (target.nodeName.match(/button/i)) {
-          target.classList.contains('decrement') ? this.decrement() : this.increment();
+          target.classList.contains('decrement')
+            ? this.decrement()
+            : this.increment();
         }
       });
     }

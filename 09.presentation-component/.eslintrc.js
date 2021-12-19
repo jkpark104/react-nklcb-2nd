@@ -25,12 +25,7 @@ module.exports = {
   plugins: ['react', 'jsx-a11y', 'prettier', 'jest'],
   rules: {
     'react/prop-types': 'warn',
-    'prettier/prettier': [
-      'error',
-      {
-        endOfLine: 'auto',
-      },
-    ],
+    'prettier/prettier': 'error',
     'arrow-body-style': 'off',
     'prefer-arrow-callback': 'off',
   },
