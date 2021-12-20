@@ -1,17 +1,20 @@
 {
+  "name": "21.assign-01",
+  "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5000",
-  "homepage": ".",
   "dependencies": {
-    "@testing-library/jest-dom": "^5.12.0",
-    "@testing-library/react": "^11.2.7",
-    "@testing-library/user-event": "^12.8.3",
-    "axios": "^0.24.0",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-scripts": "^5.0.0",
-    "vanilla-tilt": "^1.7.2",
-    "web-vitals": "^1.1.2"
+    "react-scripts": "5.0.0",
+    "web-vitals": "^2.1.2"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.37",
+    "@types/react-dom": "^17.0.11",
+    "sass": "^1.45.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -27,19 +30,14 @@
   },
   "browserslist": {
     "production": [
-      "defaults",
+      ">0.2%",
       "not dead",
-      "> 1% in KR"
+      "not op_mini all"
     ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@types/react": "^17.0.37",
-    "@types/react-dom": "^17.0.11",
-    "@types/vanilla-tilt": "^1.6.2"
   }
 }
