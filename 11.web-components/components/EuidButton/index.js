@@ -19,40 +19,40 @@ class EuidButton extends HTMLElement {
 
     this.shadowRoot.innerHTML = /* html */ `
       <style>
-        :host button {
-          user-select: none;
-          cursor: pointer;
-          border-radius: 3px;
-          border: 1px solid rgba(30 30 30 / 30%);
-          padding: 0.46em 0.94em;
-          font-size: 1rem;
-          background: rgba(255 255 255 / 95%);
-        }
+:host button {
+  user-select: none;
+  cursor: pointer;
+  border-radius: 3px;
+  border: 1px solid rgba(30 30 30 / 30%);
+  padding: 0.46em 0.94em;
+  font-size: 1rem;
+  background: rgba(255 255 255 / 95%);
+}
 
-        :host button:hover {
-          border-color: rgb(34 130 188 / 50%);
-        }
-        
-        :host button:focus {
-          outline: 2px solid rgb(34 130 188 / 50%);
-          border-color: rgb(34 130 188 / 50%);
-        }
-        
-        :host button:focus:not(:focus-visible) {
-          outline: none;
-        }
+:host button:hover {
+  border-color: rgb(34 130 188 / 50%);
+}
 
-        :host button:active {
-          background: rgba(34 130 188 / 10%);
-        }
+:host button:focus {
+  outline: 2px solid rgb(34 130 188 / 50%);
+  border-color: rgb(34 130 188 / 50%);
+}
+
+:host button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:host button:active {
+  background: rgba(34 130 188 / 10%);
+}
       </style>
 
-      <button 
-        type="${type ?? 'button'}"
-        class="${`EuidButton ${className ?? ''}`.trim()}"
-      >
-        <slot />
-      </button>
+<button
+  type="${type ?? 'button'}"
+  class="${`EuidButton ${className ?? ''}`.trim()}"
+>
+  <slot />
+</button>
     `;
 
     this._bindAttrs();

@@ -1,108 +1,210 @@
-/* 
-  React 앱에서 모달 다이어로그 또는 노티피케이션 컴포넌트를 제작할 때 필요한 React 개념
-
-  - 비포커스 요소에 포커스 적용 가능하도록 설정 -> tabIndex
-  - React.createRef() -> { current: null }
-  - React.forwardRef() 또는 `forwardRef` prop 활용
-  - 고차 컴포넌트(Higher order Component, HOC)
-  - ref
-  - 라이프 사이클 메서드 (didMount, didUpdate 시점 실제 DOM 노드에 접근/조작)
-  - ReactDOM.createPortal(vNode, domNode)
-
-*/
-
-import './Dialog.css';
-import React from 'react';
+import styles from './Dialog.module.css';
+import { useRef, useEffect, useCallback } from 'react';
+import {
+  // number,
+  string,
+  bool,
+  func,
+  // array,
+  // object,
+  // symbol,
+  elementType,
+  // element,
+  node,
+  // instanceOf,
+  oneOf,
+  oneOfType,
+  // arrayOf
+  // objectOf
+  // shape,
+  // exact,
+  any,
+} from 'prop-types';
 import { createPortal } from 'react-dom';
+import { getTabbableElements, classNames } from 'utils';
 
-// 모달 다이얼로그 컴포넌트가 차원이동(portal) 렌더링 될 컨테이너 요소(실제 DOM 노드)
-// const dialogContainer = document.getElementById('modal-dialog-zone');
+// [비교]
+// PropTypes.elementType  VS.  PropTypes.element  VS.  PropTypes.node
+//
+// PropTypes.elementType = React 컴포넌트(함수 또는 클래스)
+// PropTypes.element     = React 요소(JSX, React.createElement())
+// PropTypes.node        = React 요소(JSX) 또는 number 또는 string 또는 array 또는 React.Fragment
 
-// [구독]
-// 단, 모달 다이얼로그가 화면에 표시되었을 때:
-// 사용자가 ESC 키보드 키를 눌렀을 때
-// 모달 다이얼로그를 닫는다.
+// [미션]
+// 클래스 컴포넌트가 아닌, 함수 컴포넌트 + React 훅을 사용해 동일하게 작동되도록 구성
+// - [x]  컴파운드 컴포넌트 → 함수_컴포넌트.컴포넌트 작성
+// - [x]  props 검사 → PropTypes 패키지 활용
+// - [x]  참조 관리 → React.useRef() 활용
+// - [x]  사이드 이펙트 관리 → React.useEffect() 활용
+// - [x]  함수 메모(memo: 기억) 관리 → React.useCallback() 활용
 
-// [취소]
-// 모달 다이얼로그가 화면에서 감춤 처리되었을 때:
-// 사용자가 ESC 키보드 키를 눌렀을 때
-// 모달 다이얼로그를 닫는 기능이 수행되면 안된다.
+const bodyNode = document.body;
 
-// 함수 컴포넌트 이므로 라이프 사이클을 가질 수 없다.
-// 함수 → 클래스 컴포넌트로 변경
-// 2019 이후 React Hooks의 등장으로
-// 함수에서도 라이프 사이클과 유사한 기능을 수행할 수 있다.
-export class Dialog extends React.Component {
-  render() {
-    const { isVisible, onClose, forwardRef } = this.props;
+export function Dialog({ isVisible, onClose, children, ...restProps }) {
+  // 참조 객체 생성
+  const dialogRef = useRef(null);
+  const opennerButtonRef = useRef(null);
 
-    return createPortal(
-      <div
-        role="dialog"
-        aria-modal="true"
-        className="modalDialog"
-        aria-hidden={!isVisible}
-        aria-label="React Portal﹕모달 다이얼로그"
-      >
-        <div ref={forwardRef} className="content" tabIndex={-1}>
-          <h2>포털</h2>
-          <p>
-            여기가 <a href="#">React 앱 밖의 세상</a>인가요?!
-          </p>
-        </div>
-        <button
-          type="button"
-          className="closeDialogButton"
-          aria-label="모달 다이얼로그 닫기"
-          title="모달 다이얼로그 닫기"
-          onClick={onClose}
-        >
-          <svg
-            width="24"
-            height="24"
-            xmlns="http://www.w3.org/2000/svg"
-            fillRule="evenodd"
-            clipRule="evenodd"
-          >
-            <path d="M12 11.293l10.293-10.293.707.707-10.293 10.293 10.293 10.293-.707.707-10.293-10.293-10.293 10.293-.707-.707 10.293-10.293-10.293-10.293.707-.707 10.293 10.293z" />
-          </svg>
-        </button>
-        <div role="presentation" className="dim" onClick={onClose} />
-      </div>,
-      document.body
-    );
-  }
+  // 이벤트 리스너
+  const handleClose = useCallback(() => {
+    onClose();
+    opennerButtonRef.current.focus();
+  }, [onClose]);
 
-  unbindKeyEvent = null;
+  // 사이드 이펙트 관리
+  useEffect(() => {
+    // 모달 다이얼로그 오프너 버튼 current 값에 참조
+    opennerButtonRef.current = document.activeElement;
 
-  bindKeyEvent() {
-    const handleKeyUp = (e) => {
-      console.log(e.key);
-      if (e.key === 'Escape') {
-        this.props.onClose();
+    // tabbable 요소들 찾기
+    const tabbableElements = getTabbableElements(dialogRef.current);
+    const firstTabbableElement = tabbableElements[0];
+    const lastTabbableElement = tabbableElements[tabbableElements.length - 1];
+
+    // 첫번째 탭 이동 가능한 요소에 포커싱
+    firstTabbableElement.focus();
+
+    // 이벤트 타입
+    let eventType = 'keydown';
+
+    // 이벤트 리스너 정의
+    const eventListener = (e) => {
+      const { key, shiftKey, target } = e;
+
+      if (
+        Object.is(target, firstTabbableElement) &&
+        shiftKey &&
+        key === 'Tab'
+      ) {
+        e.preventDefault();
+        lastTabbableElement.focus();
+      }
+
+      if (
+        Object.is(target, lastTabbableElement) &&
+        !shiftKey &&
+        key === 'Tab'
+      ) {
+        e.preventDefault();
+        firstTabbableElement.focus();
+      }
+
+      if (key === 'Escape') {
+        handleClose();
       }
     };
 
-    document.addEventListener('keyup', handleKeyUp);
+    // 이벤트 구독
+    document.addEventListener(eventType, eventListener);
 
-    // 클린업 함수 (클로저 활용, React Hooks)
+    // 이펙트 클린업(정리) 함수
     return () => {
-      console.log('cleanup');
-      /* cleanup closure function */
-      document.removeEventListener('keyup', handleKeyUp);
+      // 이벤트 구독 취소
+      document.removeEventListener(eventType, eventListener);
     };
-  }
+  }, [handleClose]);
 
-  componentDidMount() {
-    // 마운트 시점
-    // 이벤트 연결
-    console.log('mounted');
-    this.unbindKeyEvent = this.bindKeyEvent();
-  }
-
-  componentWillUnmount() {
-    console.log('will unmount');
-    // 이벤트 연결 해제
-    this.unbindKeyEvent?.();
-  }
+  return createPortal(
+    <section
+      ref={dialogRef}
+      role="dialog"
+      aria-modal="true"
+      className={styles.container}
+      aria-hidden={!isVisible}
+      aria-label="React Portal﹕모달 다이얼로그"
+      {...restProps}
+    >
+      {children}
+      <Dialog.CloseButton onClose={handleClose} />
+      <Dialog.Dim onClose={handleClose} />
+    </section>,
+    bodyNode
+  );
 }
+Dialog.propTypes = {
+  isVisible: bool,
+  onClose: func.isRequired,
+  children: node.isRequired,
+  restProps: any,
+};
+
+/* -------------------------------------------------------------------------- */
+
+Dialog.Dim = function DialogDim({ onClose }) {
+  return <div role="presentation" className={styles.dim} onClick={onClose} />;
+};
+Dialog.Dim.propTypes = {
+  onClose: oneOfType([func, oneOf([null, undefined])]),
+};
+
+/* -------------------------------------------------------------------------- */
+
+Dialog.Head = function DialogHead({
+  as: Comp = 'header',
+  className = '',
+  ...restProps
+}) {
+  return <Comp className={classNames(styles.head, className)} {...restProps} />;
+};
+Dialog.Head.propTypes = {
+  as: oneOfType([string, elementType]),
+  className: string,
+  restProps: any,
+};
+
+/* -------------------------------------------------------------------------- */
+
+Dialog.Foot = function DialogFoot({
+  as: Comp = 'footer',
+  className = '',
+  ...restProps
+}) {
+  return <Comp className={classNames(styles.foot, className)} {...restProps} />;
+};
+Dialog.Foot.propTypes = {
+  as: oneOfType([string, elementType]),
+  className: string,
+  restProps: any,
+};
+
+/* -------------------------------------------------------------------------- */
+
+Dialog.Main = function DialogMain({
+  as: Comp = 'article',
+  className = '',
+  ...restProps
+}) {
+  return <Comp className={classNames(styles.main, className)} {...restProps} />;
+};
+Dialog.Main.propTypes = {
+  as: oneOfType([string, elementType]),
+  className: string,
+  restProps: any,
+};
+
+/* -------------------------------------------------------------------------- */
+
+Dialog.CloseButton = function DialogCloseButton({ onClose }) {
+  return (
+    <button
+      type="button"
+      className={styles.closeButton}
+      aria-label="모달 다이얼로그 닫기"
+      title="모달 다이얼로그 닫기"
+      onClick={onClose}
+    >
+      <svg
+        width="24"
+        height="24"
+        xmlns="http://www.w3.org/2000/svg"
+        fillRule="evenodd"
+        clipRule="evenodd"
+      >
+        <path d="M12 11.293l10.293-10.293.707.707-10.293 10.293 10.293 10.293-.707.707-10.293-10.293-10.293 10.293-.707-.707 10.293-10.293-10.293-10.293.707-.707 10.293 10.293z" />
+      </svg>
+    </button>
+  );
+};
+Dialog.CloseButton.propTypes = {
+  onClose: func,
+};

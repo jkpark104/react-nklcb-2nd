@@ -31,7 +31,7 @@ function render(count, isComplete) {
 
 function animate() {
   count += 1;
-  let isComplete = count >= TARGET;
+  let isComplete = count === TARGET;
   render(count, isComplete);
   if (!isComplete) {
     if (bgmNode && !bgmNode.playing) {

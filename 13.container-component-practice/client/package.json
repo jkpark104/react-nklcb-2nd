@@ -7,6 +7,7 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.24.0",
+    "prop-types": "^15.8.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "^5.0.0",
@@ -23,7 +24,10 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "react/self-closing-comp": "error"
+    }
   },
   "browserslist": {
     "production": [
@@ -38,8 +42,8 @@
     ]
   },
   "devDependencies": {
-    "@types/react": "^17.0.37",
-    "@types/react-dom": "^17.0.11",
-    "@types/vanilla-tilt": "^1.6.2"
+    "@types/vanilla-tilt": "^1.6.2",
+    "babel-plugin-styled-components": "^2.0.2",
+    "styled-components": "^5.3.3"
   }
 }

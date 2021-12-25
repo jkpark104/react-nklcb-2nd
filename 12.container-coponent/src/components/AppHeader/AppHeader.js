@@ -14,13 +14,7 @@ export class AppHeader extends Component {
 
   getDescription() {
     // React children []
-    return [
-      'Edit',
-      ' ',
-      <code key="appEntryFile">src/App.js</code>,
-      ' ',
-      'and save to reload.',
-    ];
+    return ['Edit', ' ', <code key='appEntryFile'>src/App.js</code>, ' ', 'and save to reload.'];
   }
 
   renderDescriptionHTML() {
@@ -46,7 +40,7 @@ export class AppHeader extends Component {
     } = this.props;
 
     return (
-      <header className="App-header">
+      <header className='App-header'>
         <ReactLogo title={label} className={className} />
         {/* <p>{this.getDescription()}</p> */}
         <p dangerouslySetInnerHTML={this.renderDescriptionHTML()} />
@@ -96,6 +90,6 @@ export class AppHeader extends Component {
   }
 
   componentWillUnmount() {
-    // console.log('컴포넌트가 곧 소멸(언마운트)됩니다.');
+    console.log('컴포넌트가 곧 소멸(언마운트)됩니다.');
   }
 }

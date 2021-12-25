@@ -1,4 +1,5 @@
 import throwError from './throwError.js';
+
 // 기대(expect) 값을 검토하는 유틸리티
 // 코드 사용 예시)
 // expect(전달값).toBe(기대값)
@@ -11,39 +12,42 @@ export function expect(received) {
   return {
     toBe(expected) {
       // 전달값과 기대값을 비교해서 같지 않으면 오류 발생
-      if (received !== expected)
+      if (received !== expected) {
         throwError(`${received}와 ${expected} 값은 동일하지 않습니다.`);
+      }
     },
-
     toBeTruthy() {
-      if (received !== true)
-        throwError(`${received} 값이 truthy 하지 않습니다.`);
+      if (received !== true) {
+        throwError(`${received} 값은 true가 아닙니다.`);
+      }
     },
-
     toBeFalsy() {
-      if (received !== false)
-        throwError(`${received} 값이 falsy 하지 않습니다.`);
+      if (received !== false) {
+        throwError(`${received} 값은 false가 아닙니다.`);
+      }
     },
-
-    toBeInTheDocument() {
-      if (!document.body.contains(received))
-        throwError(`${received}는 문서에 존재하지 않습니다.`);
+    toBeInTheDocoument() {
+      if (!document.body.contains(received)) {
+        throwError(`${received}는 문서에 포함되지 않습니다.`);
+      }
     },
-
     toHaveClass(expected) {
-      if (!received.classList.contains(expected))
-        throwError(`${expected} 요소가 없습니다.`);
+      if (!received.classList.contains(expected)) {
+        throwError(
+          `${received} 요소는 ${expected} 클래스 이름을 포함하지 않습니다.`
+        );
+      }
     },
-
     not: {
       toBe(expected) {
-        if (received === expected)
+        if (received === expected) {
           throwError(`${received}와 ${expected} 값이 동일합니다.`);
+        }
       },
-
-      toBeInTheDocument() {
-        if (!document.body.contains(received))
-          throwError(`${received}는 문서에 존재합니다.`);
+      toBeInTheDocoument() {
+        if (document.body.contains(received)) {
+          throwError(`${received}는 문서에 포함되어 있습니다.`);
+        }
       },
     },
   };
@@ -51,21 +55,21 @@ export function expect(received) {
 
 // 테스트(test) 유틸리티
 // 코드 사용 예시)
-// test('테스트 설명', () => {})
+// test('1 + 1 = 2', () => expect(1 + 1).not.toBe('12'))
 export function test(description, callback) {
   // 오류 발생 여부 감지
   try {
     callback();
-    console.log(`😀 테스트 성공: ${description}`);
+    console.log(`🟢 테스트 성공: ${description}`);
   } catch (error) {
-    console.groupCollapsed(`😥 테스트 실패: ${description}`);
-    console.log(error.message);
+    console.groupCollapsed(`🔴 테스트 실패: ${description}`);
+    console.error(error.message);
     console.groupEnd();
   }
 }
 
 // 기술(describe) 유틸리티
-// 코드 사용 에시)
+// 코드 사용 예시)
 // describe('테스트 리스트 항목을 대변하는 레이블', () => { test(); test(); ... })
 export function describe(testLabel, callback) {
   console.group(testLabel);
